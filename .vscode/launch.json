@@ -8,8 +8,13 @@
       "args": [],
       "stopAtEntry": false,
       "externalConsole": true,
+<<<<<<< HEAD
       "cwd": "c:/Users/Lenovo/Desktop/Maze_Solver-Project/Maze_Solver-Project",
       "program": "c:/Users/Lenovo/Desktop/Maze_Solver-Project/Maze_Solver-Project/build/Debug/outDebug",
+=======
+      "cwd": "c:/Users/Ali Jan/Desktop/Maze_Solver-Project/Maze_Solver-Project",
+      "program": "c:/Users/Ali Jan/Desktop/Maze_Solver-Project/Maze_Solver-Project/build/Debug/outDebug",
+>>>>>>> dcc3212e1f2034402d066022da0cbdcb2b4c91d1
       "MIMode": "gdb",
       "miDebuggerPath": "gdb",
       "setupCommands": [
