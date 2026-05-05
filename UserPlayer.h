@@ -2,19 +2,19 @@
 #define USERPLAYER_H
 
 #include <string>
-#include <stdexcept>   // bring in custom error handling
+#include "Exceptions.h"   // bring in custom error handling
 
 using namespace std;
 
 // Base class for all users in the system
 class User {
 protected:
-    string username;   // name chosen by the user
-    string password;   // secret key for login
-    int score;         // points earned by the user
+    string username;   
+    string password;   
+    int score;         
 
 public:
-    User();   // default constructor
+    User();   
     User(const string& uname, const string& pass);   // create user with name + password
 
     virtual void showMenu() = 0;   // force subclasses to show their own menu
@@ -39,8 +39,8 @@ public:
     Player();   // default player
     Player(const string& uname, const string& pass);   // player with name + password
 
-    void login();             // log the player in
-    void logout();            // log the player out
+    void login();             
+    void logout();            
     void incrementAttempt();  // increase failed login attempts
 
     void showMenu() override;        // show player-specific menu
