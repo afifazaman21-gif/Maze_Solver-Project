@@ -104,3 +104,79 @@ Maze& Maze::operator=(const Maze& other) {
 
     return *this;
 }
+// Getters
+int Maze::getRows() const { 
+    return rows; 
+}
+int Maze::getCols() const { 
+    return cols; 
+}
+
+// Convert enum to char for output
+char Maze::getCell(int r, int c) const {
+    CellType t = grid[r][c];
+    if (t == CellType::WALL) return '#';
+    if (t == CellType::EMPTY) return ' ';
+    if (t == CellType::START) return 'S';
+    if (t == CellType::END) return 'E';
+    if (t == CellType::PATH) return '*';
+    if (t == CellType::VISITED) return '.';
+    return ' ';
+}
+
+// Set cell type based on char input
+void Maze::setCell(int r, int c, char val) {
+    if (r < 0 || r >= rows || c < 0 || c >= cols)
+        throw MazeLogicException("Cell index out of bounds.");
+
+    if (val == '#') grid[r][c] = CellType::WALL;
+    else if (val == ' ') grid[r][c] = CellType::EMPTY;
+    else if (val == 'S') grid[r][c] = CellType::START;
+    else if (val == 'E') grid[r][c] = CellType::END;
+    else if (val == '*') grid[r][c] = CellType::PATH;
+    else if (val == '.') grid[r][c] = CellType::VISITED;
+    else grid[r][c] = CellType::EMPTY;
+}
+
+// Full maze generation process
+void Maze::generateMaze() {
+    if (rows < 5 || cols < 5)
+        throw MazeLogicException("Maze size too small. Use at least 5x5.");
+
+    fillWalls();
+    carve(1, 1);
+
+    grid[1][1] = CellType::START;
+    grid[rows - 2][cols - 2] = CellType::END;
+}
+
+// Remove solving paths from grid
+void Maze::clearVisitedAndPath() {
+    for (int i = 0; i < rows; i++)
+        for (int j = 0; j < cols; j++)
+            if (grid[i][j] == CellType::VISITED || grid[i][j] == CellType::PATH)
+                grid[i][j] = CellType::EMPTY;
+
+    grid[1][1] = CellType::START;
+    grid[rows - 2][cols - 2] = CellType::END;
+}
+
+// Print maze to console
+void Maze::display() const {
+    cout << "\n";
+
+    for (int i = 0; i < rows; i++) {
+        for (int j = 0; j < cols; j++) {
+            char ch = getCell(i, j);
+
+            if (ch == '#') cout << (char)219 << (char)219; // Draw wall block
+            else if (ch == 'S') cout << "S ";
+            else if (ch == 'E') cout << "E ";
+            else if (ch == '*') cout << "* ";
+            else if (ch == '.') cout << ". ";
+            else cout << "  ";
+        }
+        cout << "\n";
+    }
+    cout << "\nLegend: █=Wall  (space)=Path  S=Start  E=End  *=Solution  .=Visited\n";
+}
