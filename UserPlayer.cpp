@@ -4,53 +4,55 @@
 
 using namespace std;
 
-// ---------------- USER CLASS ----------------
-
-// Default constructor: initializes empty user
+// USER CLASS IMPLEMENTATION
+// Default constructor → empty user
 User::User() : username(""), password(""), score(0) {}
 
-// Parameterized constructor: sets username and password
+// Constructor with username + password
 User::User(const string& uname, const string& pass)
     : username(uname), password(pass), score(0) {}
 
-// Prints basic user info (username + score)
+// Display basic info
 void User::displayInfo() const {
     cout << "Username: " << username << " | Score: " << score << "\n";
 }
 
-// Getters for user data
+// Getter functions
 string User::getUsername() const { return username; }
 int User::getScore() const { return score; }
 
-// Adds points to user score
+// Add points to score
 void User::addScore(int pts) { score += pts; }
 
-// Simple password check
-bool User::checkPassword(const string& pass) const { return password == pass; }
+// Check password match
+bool User::checkPassword(const string& pass) const {
+    return password == pass;
+}
 
-// Destructor (nothing dynamic here, so empty)
+// Destructor (nothing dynamic → empty)
 User::~User() {}
 
 
-// ---------------- PLAYER CLASS ----------------
 
-// Default player setup
+// PLAYER CLASS IMPLEMENTATION
+
+// Default Player
 Player::Player() : User(), attemptCount(0), isLoggedIn(false) {}
 
 // Player with credentials
 Player::Player(const string& uname, const string& pass)
     : User(uname, pass), attemptCount(0), isLoggedIn(false) {}
 
-// Marks player as logged in
-void Player::login() { isLoggedIn = true; }
 
-// Marks player as logged out
+// Login/logout controls
+void Player::login() { isLoggedIn = true; }
 void Player::logout() { isLoggedIn = false; }
 
-// Tracks how many attempts player made in maze
+// Increase maze attempt counter
 void Player::incrementAttempt() { attemptCount++; }
 
-// Displays player menu options
+
+// Player Menu (Runtime Polymorphism)
 void Player::showMenu() {
     cout << "\n--- Player Menu [" << username << "] ---\n";
     cout << "1. View Maze\n";
@@ -61,43 +63,65 @@ void Player::showMenu() {
     cout << "Choice: ";
 }
 
-// Overridden info display with extra stats
+
+// Overridden display function (Function Overriding)
 void Player::displayInfo() const {
     cout << "[Player] " << username
          << " | Score: " << score
          << " | Attempts: " << attemptCount << "\n";
 }
 
-// Saves player data to a file (username_data.txt)
+
+// FILE HANDLING FUNCTIONS
+// Save player data to file
 void Player::saveToFile() const {
-    string fname = username + "_data.txt";
-    ofstream fout(fname);
+    string fname = username + "_data.txt";   // filename creation
+    ofstream fout(fname);                    // open file for writing
 
-    // If file can't be created, throw error
-    if (!fout.is_open()) throw FileException("Could not save player data.");
+    if (!fout.is_open())
+        throw FileException("Could not save player data.");
 
-    // Store user details line by line
-    fout << username << "\n" << password << "\n" << score << "\n" << attemptCount << "\n";
+    // Write data line-by-line
+    fout << username << "\n"
+         << password << "\n"
+         << score << "\n"
+         << attemptCount << "\n";
+
     fout.close();
 }
 
-// Loads player data from file
+
+// Load player data from file
 void Player::loadFromFile(const string& uname) {
     string fname = uname + "_data.txt";
     ifstream fin(fname);
 
-    // If file doesn't exist, throw error
-    if (!fin.is_open()) throw FileException("No saved data for: " + uname);
+    if (!fin.is_open())
+        throw FileException("No saved data for: " + uname);
 
-    // Read data back in same order it was saved
+    // Read in same order as saved
     getline(fin, username);
     getline(fin, password);
     fin >> score >> attemptCount;
 
     fin.close();
 }
+// POLYMORPHISM FUNCTION
+// Calls virtual function via base pointer
 
-// Helper function: calls menu from user pointer (polymorphism use)
 void showUserMenu(User* u) {
     u->showMenu();
+}
+
+// FRIEND FUNCTION IMPLEMENTATION 
+
+// Not a member of Player class!
+// But declared as friend → can access private members
+void grantSecretBonus(Player& p) {
+
+    // Direct access to PROTECTED member 'score'
+    p.score += 10;
+
+    cout << "\n[Friend Function] Secret bonus granted to "
+         << p.username << " (+10 points)\n";
 }
