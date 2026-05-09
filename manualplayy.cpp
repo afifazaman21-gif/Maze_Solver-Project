@@ -1,4 +1,4 @@
-#include "ManualPlay.h"
+#include "manualplayy.h"
 // Includes function declaration and required classes
 
 #include <iostream>
