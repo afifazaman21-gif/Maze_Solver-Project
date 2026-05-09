@@ -33,7 +33,7 @@ public:
     // Password verification
     bool checkPassword(const string& pass) const;
 
-    // Virtual destructor (important in inheritance)
+    // Virtual destructor 
     virtual ~User();
 };
 
@@ -48,7 +48,7 @@ private:
   
     // FRIEND CLASS 
     // Leaderboard can directly access private data
-    // without using getters (exam concept)
+    // without using getters
     friend class Leaderboard;
 
     // FRIEND FUNCTION 

@@ -4,8 +4,7 @@
 
 using namespace std;
 
-// USER CLASS IMPLEMENTATION
-// Default constructor → empty user
+// Default constructor empty user
 User::User() : username(""), password(""), score(0) {}
 
 // Constructor with username + password
@@ -32,10 +31,8 @@ bool User::checkPassword(const string& pass) const {
 // Destructor (nothing dynamic → empty)
 User::~User() {}
 
-
-
 // PLAYER CLASS IMPLEMENTATION
-
+//Inheriting User class
 // Default Player
 Player::Player() : User(), attemptCount(0), isLoggedIn(false) {}
 
