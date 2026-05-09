@@ -1,4 +1,4 @@
-#include "LEADERBORD.h"
+#include "leaderboard.h"
 // Includes the header file where Leaderboard class is declared
 
 #include <iostream>
