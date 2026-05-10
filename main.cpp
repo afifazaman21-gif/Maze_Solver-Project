@@ -3,7 +3,7 @@
 #include "UserPlayer.h"  //User and Player classes
 #include "Solver.h" //DFS maze solving
 #include "leaderboard.h" //Ranking players
-#include "manualplayy.h" W/A/S/D gameplay
+#include "ManualPlay.h" W/A/S/D gameplay
 
 using namespace std;
 
@@ -62,7 +62,7 @@ int main() {
                 //Program jumps directly to catch (exception handling)
                 p.login(); //isLoggedIn = true inside Player class.
 
-                grantSecretBonus(p); 
+                //grantSecretBonus(p); 
                 cout << "\nWelcome, " << p.getUsername() << "!\n"; //Uses getter function
                 
                 int pc; //Stores player menu choice
