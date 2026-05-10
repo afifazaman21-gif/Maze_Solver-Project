@@ -1,56 +1,82 @@
 #ifndef USERPLAYER_H
 #define USERPLAYER_H
-
 #include <string>
-#include "Exceptions.h"   // bring in custom error handling
+#include "Exceptions.h"   // contains FileException etc
 
 using namespace std;
-
-// Base class for all users in the system
+// BASE CLASS : User (Abstract Class)
 class User {
 protected:
+    // Protected so derived classes (Player) can access them
     string username;   
     string password;   
     int score;         
 
 public:
     User();   
-    User(const string& uname, const string& pass);   // create user with name + password
+    User(const string& uname, const string& pass);
 
-    virtual void showMenu() = 0;   // force subclasses to show their own menu
-    virtual void displayInfo() const;   // show basic user details
+    // PURE VIRTUAL FUNCTION → makes class ABSTRACT
+    // Every derived class MUST implement its own menu
+    virtual void showMenu() = 0;
 
-    string getUsername() const;   // fetch the username
-    int getScore() const;         // fetch the score
-    void addScore(int pts);       // add points to score
+    // Virtual so Player can override it
+    virtual void displayInfo() const;
 
-    bool checkPassword(const string& pass) const;   // verify password
+    // Getters
+    string getUsername() const;
+    int getScore() const;
 
-    virtual ~User();   // cleanup when object is destroyed
+    // Add points to score
+    void addScore(int pts);
+
+    // Password verification
+    bool checkPassword(const string& pass) const;
+
+    // Virtual destructor 
+    virtual ~User();
 };
 
-// Player class extends User with extra features
+
+// DERIVED CLASS : Player
+
 class Player : public User {
 private:
-    int attemptCount;   // how many times player tried to log in
-    bool isLoggedIn;    // track login status
+    int attemptCount;   // number of maze attempts
+    bool isLoggedIn;    // login status
+
+  
+    // FRIEND CLASS 
+    // Leaderboard can directly access private data
+    // without using getters
+    friend class Leaderboard;
+
+    // FRIEND FUNCTION 
+    // External function allowed to access private members
+    friend void grantSecretBonus(Player& p);
 
 public:
-    Player();   // default player
-    Player(const string& uname, const string& pass);   // player with name + password
+    Player();
+    Player(const string& uname, const string& pass);
 
     void login();             
     void logout();            
-    void incrementAttempt();  // increase failed login attempts
+    void incrementAttempt();  
 
-    void showMenu() override;        // show player-specific menu
-    void displayInfo() const override;   // show player details
+    void showMenu() override;        
+    void displayInfo() const override;
 
-    void saveToFile() const;            // save player data to file
-    void loadFromFile(const string& uname);   // load player data from file
+    // File handling
+    void saveToFile() const;
+    void loadFromFile(const string& uname);
 };
 
-// helper function to show menu for any user type
+// POLYMORPHISM HELPER FUNCTION
+// Calls virtual menu using base pointer
 void showUserMenu(User* u);
+
+// FRIEND FUNCTION DECLARATION
+// (must be declared outside class)
+void grantSecretBonus(Player& p);
 
 #endif
