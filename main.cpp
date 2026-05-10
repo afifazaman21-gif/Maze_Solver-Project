@@ -2,10 +2,11 @@
 #include "Maze.h" //Maze generation + display
 #include "UserPlayer.h"  //User and Player classes
 #include "Solver.h" //DFS maze solving
-#include "Leaderboard.h" //Ranking players
-#include "ManualPlay.h" W/A/S/D gameplay
+#include "leaderboard.h" //Ranking players
+#include "manualplayy.h" W/A/S/D gameplay
 
 using namespace std;
+
 
 int main() {
     cout << "=============================================\n";
@@ -60,8 +61,10 @@ int main() {
                     throw LoginException("Incorrect password.");
                 //Program jumps directly to catch (exception handling)
                 p.login(); //isLoggedIn = true inside Player class.
-                cout << "\nWelcome, " << p.getUsername() << "!\n"; //Uses getter function
 
+                grantSecretBonus(p); 
+                cout << "\nWelcome, " << p.getUsername() << "!\n"; //Uses getter function
+                
                 int pc; //Stores player menu choice
                 bool prun = true; //Controls player menu loop
 
